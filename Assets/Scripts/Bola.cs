@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bola : MonoBehaviour {
 
   //Velocidad
   [SerializeField] private float velocidad = 50.0f;
+  [SerializeField] private int golesIzquierda = 0;
+  [SerializeField] private int golesDerecha = 0;
+
+  //Cajas de texto de los contadores
+  [SerializeField] private Text contadorIzquierda;
+  [SerializeField] private Text contadorDerecha;
 
   //Se ejecuta al arrancar
   void Start () {
-
+    contadorIzquierda.text = golesIzquierda.ToString();
+    contadorDerecha.text = golesDerecha.ToString();
     //Velocidad inicial hacia la derecha
     GetComponent<Rigidbody2D>().velocity = Vector2.right * velocidad;
 
@@ -75,4 +83,33 @@ int direccionY(Vector2 posicionBola, Vector2 posicionRaqueta){
   }
 }
 
+public void reiniciarBola(string direccion){
+
+  //Posición 0 de la bola
+  transform.position = Vector2.zero;
+  //Vector2.zero es lo mismo que new Vector2(0,0);
+
+  //Velocidad inicial de la bola
+  velocidad = 30;
+
+  //Velocidad y dirección
+  if (direccion == "Derecha"){
+    //Incremento goles al de la derecha
+    golesDerecha++;
+    //Lo escribo en el marcador
+    contadorDerecha.text = golesDerecha.ToString();
+    //Reinicio la bola
+    GetComponent<Rigidbody2D>().velocity = Vector2.right * velocidad;
+    //Vector2.right es lo mismo que new Vector2(1,0)
+  }
+  else if (direccion == "Izquierda"){
+    //Incremento goles al de la izquierda
+    golesIzquierda++;
+    //Lo escribo en el marcador
+    contadorIzquierda.text = golesIzquierda.ToString();
+    //Reinicio la bola
+    GetComponent<Rigidbody2D>().velocity = Vector2.left * velocidad;
+    //Vector2.left es lo mismo que new Vector2(-1,0)
+  }
+}
 }

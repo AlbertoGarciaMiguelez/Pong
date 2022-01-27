@@ -350,6 +350,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 50
+  golesIzquierda: 0
+  golesDerecha: 0
+  contadorIzquierda: {fileID: 1564259285}
+  contadorDerecha: {fileID: 401432398}
 --- !u!1 &183024343
 GameObject:
   m_ObjectHideFlags: 0
