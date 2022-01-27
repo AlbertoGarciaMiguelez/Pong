@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bola : MonoBehaviour {
 
   //Velocidad
-  [SerializeField] private float velocidad = 30.0f;
+  [SerializeField] private float velocidad = 50.0f;
 
   //Se ejecuta al arrancar
   void Start () {
