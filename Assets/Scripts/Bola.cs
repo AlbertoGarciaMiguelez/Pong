@@ -6,21 +6,22 @@ using UnityEngine.UI;
 public class Bola : MonoBehaviour {
 
   //Velocidad
+  AudioSource fuenteDeAudio;
   [SerializeField] private float velocidad = 50.0f;
   [SerializeField] private int golesIzquierda = 0;
   [SerializeField] private int golesDerecha = 0;
-
+  [SerializeField] private AudioClip audioGol, audioRaqueta, audioRebote;
   //Cajas de texto de los contadores
   [SerializeField] private Text contadorIzquierda;
   [SerializeField] private Text contadorDerecha;
-
+  
   //Se ejecuta al arrancar
   void Start () {
     contadorIzquierda.text = golesIzquierda.ToString();
     contadorDerecha.text = golesDerecha.ToString();
     //Velocidad inicial hacia la derecha
     GetComponent<Rigidbody2D>().velocity = Vector2.right * velocidad;
-
+    fuenteDeAudio = GetComponent<AudioSource>();
     
   }
   /* Añadir como dos nuevos métodos ANTEs de la última llave de cierre } de la clase */
@@ -36,7 +37,8 @@ void OnCollisionEnter2D(Collision2D micolision){
 
   //Si choca con la raqueta izquierda
   if (micolision.gameObject.name == "Raqueta Izquierda"){
-
+    fuenteDeAudio.clip = audioRaqueta;
+    fuenteDeAudio.Play();
     //Valor de x
     int x = 1;
 
@@ -53,7 +55,8 @@ void OnCollisionEnter2D(Collision2D micolision){
 
   //Si choca con la raqueta derecha
   if (micolision.gameObject.name == "Raqueta Derecha"){
-
+    fuenteDeAudio.clip = audioRaqueta;
+    fuenteDeAudio.Play();
     //Valor de x
     int x = -1;
 
@@ -65,6 +68,13 @@ void OnCollisionEnter2D(Collision2D micolision){
 
     //Aplico velocidad
     GetComponent<Rigidbody2D>().velocity = direccion * velocidad;
+
+  }
+  if (micolision.gameObject.name == "Arriba" || micolision.gameObject.name == "Abajo"){
+
+  //Reproduzco el sonido del rebote
+  fuenteDeAudio.clip = audioRebote;
+  fuenteDeAudio.Play();
 
   }
 }
@@ -111,5 +121,7 @@ public void reiniciarBola(string direccion){
     GetComponent<Rigidbody2D>().velocity = Vector2.left * velocidad;
     //Vector2.left es lo mismo que new Vector2(-1,0)
   }
+  fuenteDeAudio.clip = audioGol;
+  fuenteDeAudio.Play();
 }
 }
