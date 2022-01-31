@@ -15,7 +15,9 @@ public class Bola : MonoBehaviour {
   [SerializeField] private Text contadorIzquierda;
   [SerializeField] private Text contadorDerecha;
   [SerializeField] private Text resultado;
-  
+  [SerializeField] private Text temporizador;
+  private float tiempo = 180;
+
   //Se ejecuta al arrancar
   void Start () {
     contadorIzquierda.text = golesIzquierda.ToString();
@@ -32,7 +34,30 @@ public class Bola : MonoBehaviour {
 
   //Incremento la velocidad de la bola
   velocidad = velocidad + 2 * Time.deltaTime;
-
+  if (tiempo >= 0){
+  tiempo -= Time.deltaTime; //Le resto el tiempo transcurrido en cada frame
+  temporizador.text = formatearTiempo(tiempo); //Formateo el tiempo y lo escribo en la caja de texto
+  }
+  //Si se ha acabado el tiempo, compruebo quién ha ganado y se acaba el juego
+  else{
+    temporizador.text = "00:00"; //Para evitar valores negativos	
+    //Compruebo quién ha ganado
+    if (golesIzquierda > golesDerecha){
+      //Escribo y muestro el resultado
+      resultado.text = "¡Jugador Izquierda GANA!\nPulsa I para volver a Inicio\nPulsa P para volver a jugar";
+    }
+    else if (golesDerecha > golesIzquierda){
+      //Escribo y muestro el resultado
+      resultado.text = "¡Jugador Derecha GANA!\nPulsa I para volver a Inicio\nPulsa P para volver a jugar";
+    }
+    else{
+      //Escribo y muestro el resultado
+      resultado.text = "¡EMPATE!\nPulsa I para volver a Inicio\nPulsa P para volver a jugar";
+    }
+    //Muestro el resultado, pauso el juego y devuelvo true
+    resultado.enabled = true;
+    Time.timeScale = 0; //Pausa
+  }
 }
 //Se ejecuta al colisionar
 void OnCollisionEnter2D(Collision2D micolision){
@@ -160,5 +185,15 @@ public void reiniciarBola(string direccion){
 }
   fuenteDeAudio.clip = audioGol;
   fuenteDeAudio.Play();
+}
+string formatearTiempo(float tiempo){
+
+  //Formateo minutos y segundos a dos dígitos
+	string minutos = Mathf.Floor(tiempo / 60).ToString("00");
+ 	string segundos = Mathf.Floor(tiempo % 60).ToString("00");
+    
+	//Devuelvo el string formateado con : como separador
+	return minutos + ":" + segundos;
+  
 }
 }
