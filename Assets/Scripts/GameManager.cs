@@ -13,5 +13,9 @@ public class GameManager : MonoBehaviour {
       //Cargo la escena de Juego
       SceneManager.LoadScene("Juego");
     }
+    if (Input.GetKeyDown(KeyCode.I)){
+  //Cargo la escena de Inicio
+  SceneManager.LoadScene("Inicio");
+}
   }
 }

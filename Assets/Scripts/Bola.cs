@@ -14,6 +14,7 @@ public class Bola : MonoBehaviour {
   //Cajas de texto de los contadores
   [SerializeField] private Text contadorIzquierda;
   [SerializeField] private Text contadorDerecha;
+  [SerializeField] private Text resultado;
   
   //Se ejecuta al arrancar
   void Start () {
@@ -22,6 +23,8 @@ public class Bola : MonoBehaviour {
     //Velocidad inicial hacia la derecha
     GetComponent<Rigidbody2D>().velocity = Vector2.right * velocidad;
     fuenteDeAudio = GetComponent<AudioSource>();
+    resultado.enabled = false;
+    Time.timeScale = 1;
     
   }
   /* Añadir como dos nuevos métodos ANTEs de la última llave de cierre } de la clase */
@@ -97,6 +100,31 @@ int direccionY(Vector2 posicionBola, Vector2 posicionRaqueta){
     return 0; //Si choca por la parte central de la raqueta, sale en horizontal
   }
 }
+bool comprobarFinal(){
+
+  //Si el de la izquierda ha llegado a 5
+  if (golesIzquierda == 5){
+    //Escribo y muestro el resultado
+    resultado.text = "¡Jugador Izquierda GANA!\nPulsa I para volver a Inicio\nPulsa P para volver a jugar";
+    //Muestro el resultado, pauso el juego y devuelvo true
+    resultado.enabled = true;
+    Time.timeScale = 0; //Pausa
+    return true;
+  }
+  //Si el de le aderecha a llegado a 5
+  else if (golesDerecha == 5){
+    //Escribo y muestro el resultado
+    resultado.text = "¡Jugador Derecha GANA!\nPulsa I para volver a Inicio\nPulsa P para volver a jugar";
+    //Muestro el resultado, pauso el juego y devuelvo true
+    resultado.enabled = true;
+    Time.timeScale = 0; //Pausa
+    return true;
+  }
+  //Si ninguno ha llegado a 5, continúa el juego
+  else{
+    return false;
+  }
+}
 
 public void reiniciarBola(string direccion){
 
@@ -114,18 +142,22 @@ public void reiniciarBola(string direccion){
     //Lo escribo en el marcador
     contadorDerecha.text = golesDerecha.ToString();
     //Reinicio la bola
+    if (!comprobarFinal()){
     GetComponent<Rigidbody2D>().velocity = Vector2.right * velocidad;
-    //Vector2.right es lo mismo que new Vector2(1,0)
+  //Vector2.right es lo mismo que new Vector2(1,0)
   }
+}
   else if (direccion == "Izquierda"){
     //Incremento goles al de la izquierda
     golesIzquierda++;
     //Lo escribo en el marcador
     contadorIzquierda.text = golesIzquierda.ToString();
     //Reinicio la bola
+  if (!comprobarFinal()){
     GetComponent<Rigidbody2D>().velocity = Vector2.left * velocidad;
-    //Vector2.left es lo mismo que new Vector2(-1,0)
-  }
+  //Vector2.left es lo mismo que new Vector2(-1,0)
+  }	
+}
   fuenteDeAudio.clip = audioGol;
   fuenteDeAudio.Play();
 }
