@@ -25,7 +25,12 @@ public class Bola : MonoBehaviour {
     
   }
   /* Añadir como dos nuevos métodos ANTEs de la última llave de cierre } de la clase */
+  void Update () {
 
+  //Incremento la velocidad de la bola
+  velocidad = velocidad + 2 * Time.deltaTime;
+
+}
 //Se ejecuta al colisionar
 void OnCollisionEnter2D(Collision2D micolision){
 
